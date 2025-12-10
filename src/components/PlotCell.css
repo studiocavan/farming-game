@@ -1,0 +1,94 @@
+.plot-cell {
+  background: #8B5A2B;
+  border: 3px solid #654321;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  position: relative;
+}
+
+.plot-cell:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.plot-cell.selectable {
+  border-color: #4CAF50;
+  background: #9d6f3a;
+}
+
+.plot-cell.selectable:hover {
+  border-color: #45a049;
+  background: #a87944;
+}
+
+.plot-cell.harvestable {
+  border-color: #FFD700;
+  animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+.plot-cell.waterable:hover {
+  border-color: #2196F3;
+}
+
+.empty-plot {
+  font-size: 3em;
+  opacity: 0.5;
+}
+
+.plant {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  width: 100%;
+}
+
+.plant-emoji {
+  font-size: 3em;
+}
+
+.plant-emoji.seedling {
+  font-size: 2em;
+}
+
+.status {
+  font-size: 0.7em;
+  color: #FFD700;
+  font-weight: bold;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.water-bar {
+  width: 80%;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.water-progress {
+  height: 100%;
+  background: linear-gradient(to right, #2196F3, #64B5F6);
+  transition: width 0.3s;
+}
+
+.water-count {
+  font-size: 0.7em;
+  color: white;
+  font-weight: bold;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
