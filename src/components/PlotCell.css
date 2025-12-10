@@ -16,14 +16,11 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 
-.plot-cell.selectable {
+.plot-cell.drag-over {
   border-color: #4CAF50;
   background: #9d6f3a;
-}
-
-.plot-cell.selectable:hover {
-  border-color: #45a049;
-  background: #a87944;
+  box-shadow: 0 0 20px rgba(76, 175, 80, 0.6);
+  transform: scale(1.05);
 }
 
 .plot-cell.harvestable {

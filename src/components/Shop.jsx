@@ -1,18 +1,17 @@
 import './Shop.css'
 
-function Shop({ plantTypes, onBuySeed, selectedSeed, money }) {
+function Shop({ plantTypes, onBuySeed, money }) {
   return (
     <div className="shop">
       <h2>🏪 Seed Shop</h2>
       <div className="seed-list">
         {Object.entries(plantTypes).map(([key, plant]) => {
           const canAfford = money >= plant.cost
-          const isSelected = selectedSeed === key
 
           return (
             <div
               key={key}
-              className={`seed-item ${!canAfford ? 'disabled' : ''} ${isSelected ? 'selected' : ''}`}
+              className={`seed-item ${!canAfford ? 'disabled' : ''}`}
               onClick={() => canAfford && onBuySeed(key)}
             >
               <div className="seed-emoji">{plant.emoji}</div>
@@ -34,12 +33,9 @@ function Shop({ plantTypes, onBuySeed, selectedSeed, money }) {
           )
         })}
       </div>
-      {selectedSeed && (
-        <div className="selected-seed-info">
-          <span>🌱 Selected: {plantTypes[selectedSeed].name}</span>
-          <span>Click an empty plot to plant!</span>
-        </div>
-      )}
+      <div className="shop-hint">
+        💡 Click to buy seeds - they'll go to your inventory below
+      </div>
     </div>
   )
 }
