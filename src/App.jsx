@@ -3,6 +3,7 @@ import './App.css'
 import FarmGrid from './components/FarmGrid'
 import Shop from './components/Shop'
 import GameStats from './components/GameStats'
+import Inventory from './components/Inventory'
 
 // Plant types configuration
 export const PLANT_TYPES = {
@@ -43,7 +44,7 @@ export const PLANT_TYPES = {
 function App() {
   // Game state
   const [money, setMoney] = useState(100)
-  const [selectedSeed, setSelectedSeed] = useState(null)
+  const [inventory, setInventory] = useState([])
   const [farmPlots, setFarmPlots] = useState(
     Array(25).fill(null).map((_, i) => ({
       id: i,
@@ -79,24 +80,29 @@ function App() {
     const plant = PLANT_TYPES[plantType]
     if (money >= plant.cost) {
       setMoney(money - plant.cost)
-      setSelectedSeed(plantType)
+      // Add seed to inventory
+      setInventory([...inventory, {
+        id: Date.now() + Math.random(), // Unique ID for each seed
+        plantType: plantType
+      }])
     }
   }
 
-  const handlePlantSeed = (plotId) => {
-    if (!selectedSeed) return
-
+  const handlePlantSeed = (plotId, seedId, plantType) => {
     const plot = farmPlots[plotId]
     if (plot.plant) return // Already has a plant
 
+    // Plant the seed
     setFarmPlots(plots =>
       plots.map(p =>
         p.id === plotId
-          ? { ...p, plant: selectedSeed, plantedAt: Date.now(), waterLevel: 0, isGrown: false }
+          ? { ...p, plant: plantType, plantedAt: Date.now(), waterLevel: 0, isGrown: false }
           : p
       )
     )
-    setSelectedSeed(null)
+
+    // Remove seed from inventory
+    setInventory(inventory.filter(seed => seed.id !== seedId))
   }
 
   const handleWaterPlant = (plotId) => {
@@ -136,8 +142,11 @@ function App() {
           <Shop
             plantTypes={PLANT_TYPES}
             onBuySeed={handleBuySeed}
-            selectedSeed={selectedSeed}
             money={money}
+          />
+          <Inventory
+            inventory={inventory}
+            plantTypes={PLANT_TYPES}
           />
         </div>
 
@@ -147,7 +156,6 @@ function App() {
             onPlantSeed={handlePlantSeed}
             onWater={handleWaterPlant}
             onHarvest={handleHarvest}
-            selectedSeed={selectedSeed}
           />
         </div>
       </div>
@@ -155,8 +163,8 @@ function App() {
       <div className="instructions">
         <h3>How to Play:</h3>
         <ul>
-          <li>💰 Buy seeds from the shop</li>
-          <li>🌱 Click an empty plot to plant</li>
+          <li>💰 Buy seeds from the shop - they go to your inventory</li>
+          <li>🌱 Drag seeds from inventory and drop on empty plots to plant</li>
           <li>💧 Water plants to help them grow (click on planted seeds)</li>
           <li>🌾 Harvest grown plants by clicking them</li>
           <li>💵 Sell harvested crops automatically for profit!</li>
