@@ -1,14 +1,15 @@
 import './Inventory.css'
+import { InventoryProps, Seed } from '../types'
 
-function Inventory({ inventory, plantTypes }) {
-  const handleDragStart = (e, seed) => {
-    e.dataTransfer.setData('seedId', seed.id)
+function Inventory({ inventory, plantTypes }: InventoryProps) {
+  const handleDragStart = (e: React.DragEvent<HTMLDivElement>, seed: Seed): void => {
+    e.dataTransfer.setData('seedId', seed.id.toString())
     e.dataTransfer.setData('plantType', seed.plantType)
     e.dataTransfer.effectAllowed = 'move'
   }
 
   // Group seeds by plant type and count them
-  const groupedSeeds = inventory.reduce((acc, seed) => {
+  const groupedSeeds = inventory.reduce<Record<string, Seed[]>>((acc, seed) => {
     if (!acc[seed.plantType]) {
       acc[seed.plantType] = []
     }

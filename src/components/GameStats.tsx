@@ -1,6 +1,7 @@
 import './GameStats.css'
+import { GameStatsProps } from '../types'
 
-function GameStats({ money }) {
+function GameStats({ money }: GameStatsProps) {
   return (
     <div className="game-stats">
       <div className="stat-item">

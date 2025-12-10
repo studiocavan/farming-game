@@ -1,11 +1,12 @@
 import { useState } from 'react'
 import { PLANT_TYPES } from '../App'
 import './PlotCell.css'
+import { PlotCellProps } from '../types'
 
-function PlotCell({ plot, onPlantSeed, onWater, onHarvest }) {
-  const [isDragOver, setIsDragOver] = useState(false)
+function PlotCell({ plot, onPlantSeed, onWater, onHarvest }: PlotCellProps) {
+  const [isDragOver, setIsDragOver] = useState<boolean>(false)
 
-  const handleClick = () => {
+  const handleClick = (): void => {
     if (plot.isGrown) {
       onHarvest()
     } else if (plot.plant) {
@@ -13,23 +14,23 @@ function PlotCell({ plot, onPlantSeed, onWater, onHarvest }) {
     }
   }
 
-  const handleDragOver = (e) => {
+  const handleDragOver = (e: React.DragEvent<HTMLDivElement>): void => {
     if (plot.plant) return // Can't drop if plot has a plant
     e.preventDefault()
     e.dataTransfer.dropEffect = 'move'
   }
 
-  const handleDragEnter = (e) => {
+  const handleDragEnter = (e: React.DragEvent<HTMLDivElement>): void => {
     if (plot.plant) return
     e.preventDefault()
     setIsDragOver(true)
   }
 
-  const handleDragLeave = () => {
+  const handleDragLeave = (): void => {
     setIsDragOver(false)
   }
 
-  const handleDrop = (e) => {
+  const handleDrop = (e: React.DragEvent<HTMLDivElement>): void => {
     e.preventDefault()
     setIsDragOver(false)
 
@@ -43,7 +44,7 @@ function PlotCell({ plot, onPlantSeed, onWater, onHarvest }) {
     }
   }
 
-  const getPlotContent = () => {
+  const getPlotContent = (): JSX.Element => {
     if (!plot.plant) {
       return <span className="empty-plot">🟫</span>
     }
@@ -76,7 +77,7 @@ function PlotCell({ plot, onPlantSeed, onWater, onHarvest }) {
     )
   }
 
-  const getPlotClass = () => {
+  const getPlotClass = (): string => {
     let className = 'plot-cell'
     if (isDragOver && !plot.plant) className += ' drag-over'
     if (plot.isGrown) className += ' harvestable'

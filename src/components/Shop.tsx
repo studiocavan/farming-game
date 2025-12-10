@@ -1,6 +1,7 @@
 import './Shop.css'
+import { ShopProps } from '../types'
 
-function Shop({ plantTypes, onBuySeed, money }) {
+function Shop({ plantTypes, onBuySeed, money }: ShopProps) {
   return (
     <div className="shop">
       <h2>🏪 Seed Shop</h2>

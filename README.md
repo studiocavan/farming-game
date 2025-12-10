@@ -1,11 +1,13 @@
 # 🚜 Farming Game
 
-A simple and fun farming simulation game built with React!
+A simple and fun farming simulation game built with React and TypeScript!
 
 ## 🎮 Features
 
 ### Core Features (Implemented)
-- **🌱 Planting System**: Buy seeds from the shop and plant them in your farm plots
+- **🎒 Inventory System**: Seeds are stored in a visual inventory after purchase
+- **🖱️ Drag & Drop**: Intuitive drag and drop interface to plant seeds
+- **🌱 Planting System**: Drag seeds from inventory to farm plots
 - **💧 Plant Maintenance**: Water your plants to help them grow
 - **🌾 Harvesting**: Harvest mature plants for profit
 - **💰 Selling**: Automatically sell harvested crops for money
@@ -53,8 +55,8 @@ npm run build
 
 ## 🎯 How to Play
 
-1. **Buy Seeds**: Click on a seed in the shop (left panel) to purchase it
-2. **Plant**: Click on an empty brown plot to plant your selected seed
+1. **Buy Seeds**: Click on seeds in the shop - they'll go to your inventory
+2. **Plant**: Drag seeds from your inventory and drop them on empty farm plots
 3. **Water**: Click on planted seedlings to water them (watch the water bar fill up)
 4. **Harvest**: When plants are fully grown (sparkle animation), click to harvest them
 5. **Profit**: Harvested crops are automatically sold, adding money to your balance
@@ -80,9 +82,10 @@ npm run build
 ## 🛠️ Technology Stack
 
 - **React 19.2.0**: UI framework
+- **TypeScript 5.x**: Static typing and enhanced developer experience
 - **Vite 7.2.4**: Build tool and dev server
 - **CSS3**: Styling and animations
-- **JavaScript (ES6+)**: Game logic
+- **HTML5 Drag and Drop API**: For interactive seed planting
 
 ## 📁 Project Structure
 
@@ -90,17 +93,23 @@ npm run build
 farming-game/
 ├── src/
 │   ├── components/
-│   │   ├── FarmGrid.jsx       # Farm grid container
+│   │   ├── FarmGrid.tsx       # Farm grid container
 │   │   ├── FarmGrid.css
-│   │   ├── PlotCell.jsx       # Individual plot cell
+│   │   ├── PlotCell.tsx       # Individual plot cell
 │   │   ├── PlotCell.css
-│   │   ├── Shop.jsx           # Seed shop component
+│   │   ├── Shop.tsx           # Seed shop component
 │   │   ├── Shop.css
-│   │   ├── GameStats.jsx      # Game statistics display
+│   │   ├── Inventory.tsx      # Inventory display component
+│   │   ├── Inventory.css
+│   │   ├── GameStats.tsx      # Game statistics display
 │   │   └── GameStats.css
-│   ├── App.jsx                # Main game logic
+│   ├── App.tsx                # Main game logic
 │   ├── App.css                # Global styles
-│   └── main.jsx               # App entry point
+│   ├── types.ts               # TypeScript type definitions
+│   ├── main.tsx               # App entry point
+│   └── index.css              # Base styles
+├── tsconfig.json              # TypeScript configuration
+├── tsconfig.node.json         # TypeScript config for build tools
 ├── package.json
 └── README.md
 ```
@@ -109,10 +118,10 @@ farming-game/
 
 ### Adding New Plant Types
 
-Edit `src/App.jsx` and add a new entry to `PLANT_TYPES`:
+Edit `src/App.tsx` and add a new entry to `PLANT_TYPES`:
 
-```javascript
-export const PLANT_TYPES = {
+```typescript
+export const PLANT_TYPES: PlantTypes = {
   // ... existing plants
   newPlant: {
     name: 'New Plant',
@@ -124,6 +133,14 @@ export const PLANT_TYPES = {
   }
 }
 ```
+
+### Type Definitions
+
+All TypeScript types are defined in `src/types.ts`. Key interfaces include:
+- `PlantType`: Defines plant properties
+- `Plot`: Farm plot state
+- `Seed`: Inventory seed item
+- Component prop types for type-safe development
 
 ### Adjusting Game Balance
 
@@ -145,6 +162,12 @@ Feel free to fork this project and add your own features! Some ideas:
 - Add pests and diseases mechanics
 - Create an achievement system
 - Add multiplayer functionality
+- Implement local storage for game saves
+- Add more plant varieties and special crops
+
+### Development
+
+This project uses TypeScript for type safety and better developer experience. All components are fully typed, and the drag-and-drop functionality uses native HTML5 APIs with proper TypeScript event types.
 
 ---
 

@@ -1,7 +1,8 @@
 import PlotCell from './PlotCell'
 import './FarmGrid.css'
+import { FarmGridProps } from '../types'
 
-function FarmGrid({ plots, onPlantSeed, onWater, onHarvest }) {
+function FarmGrid({ plots, onPlantSeed, onWater, onHarvest }: FarmGridProps) {
   return (
     <div className="farm-grid">
       {plots.map(plot => (

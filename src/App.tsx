@@ -4,9 +4,10 @@ import FarmGrid from './components/FarmGrid'
 import Shop from './components/Shop'
 import GameStats from './components/GameStats'
 import Inventory from './components/Inventory'
+import { PlantTypes, Plot } from './types'
 
 // Plant types configuration
-export const PLANT_TYPES = {
+export const PLANT_TYPES: PlantTypes = {
   wheat: {
     name: 'Wheat',
     cost: 10,
@@ -43,9 +44,9 @@ export const PLANT_TYPES = {
 
 function App() {
   // Game state
-  const [money, setMoney] = useState(100)
-  const [inventory, setInventory] = useState([])
-  const [farmPlots, setFarmPlots] = useState(
+  const [money, setMoney] = useState<number>(100)
+  const [inventory, setInventory] = useState<{ id: number; plantType: string }[]>([])
+  const [farmPlots, setFarmPlots] = useState<Plot[]>(
     Array(25).fill(null).map((_, i) => ({
       id: i,
       plant: null,
@@ -61,7 +62,7 @@ function App() {
       setFarmPlots(plots =>
         plots.map(plot => {
           if (plot.plant && !plot.isGrown) {
-            const elapsed = Date.now() - plot.plantedAt
+            const elapsed = Date.now() - (plot.plantedAt || 0)
             const plantType = PLANT_TYPES[plot.plant]
 
             if (elapsed >= plantType.growthTime && plot.waterLevel >= plantType.waterNeeded) {
@@ -76,7 +77,7 @@ function App() {
     return () => clearInterval(interval)
   }, [])
 
-  const handleBuySeed = (plantType) => {
+  const handleBuySeed = (plantType: string): void => {
     const plant = PLANT_TYPES[plantType]
     if (money >= plant.cost) {
       setMoney(money - plant.cost)
@@ -88,7 +89,7 @@ function App() {
     }
   }
 
-  const handlePlantSeed = (plotId, seedId, plantType) => {
+  const handlePlantSeed = (plotId: number, seedId: number, plantType: string): void => {
     const plot = farmPlots[plotId]
     if (plot.plant) return // Already has a plant
 
@@ -105,7 +106,7 @@ function App() {
     setInventory(inventory.filter(seed => seed.id !== seedId))
   }
 
-  const handleWaterPlant = (plotId) => {
+  const handleWaterPlant = (plotId: number): void => {
     setFarmPlots(plots =>
       plots.map(p =>
         p.id === plotId && p.plant && !p.isGrown
@@ -115,9 +116,9 @@ function App() {
     )
   }
 
-  const handleHarvest = (plotId) => {
+  const handleHarvest = (plotId: number): void => {
     const plot = farmPlots[plotId]
-    if (!plot.isGrown) return
+    if (!plot.isGrown || !plot.plant) return
 
     const plantType = PLANT_TYPES[plot.plant]
     setMoney(money + plantType.sellPrice)
